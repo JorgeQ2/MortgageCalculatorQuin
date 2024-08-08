@@ -1,6 +1,6 @@
 ﻿namespace MortgageCalculator
 {
-    public class Class1
+    public class CalculatorEquation
     {
         public static void Main(string[] args)
         {
@@ -59,6 +59,7 @@
 
         public List<Payment> PrintAmortizationSchedule()
         {
+            
             CalculateMonthlyPayment();
             double remainingBalance = AmountLoaned;
             var result = new List<Payment>();
