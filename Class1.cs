@@ -21,13 +21,17 @@
         }
     }
 
-    class Mortgage
+    public class Mortgage
     {
+        private decimal loanAmount;
+        private decimal interestRate;
+        private int loanTerm;
+
         private double AmountLoaned { get; set; }
         private double AnnualRate { get; set; }
         private int NumberOfMonths { get; set; }
         private double MonthlyRate { get; set; }
-        public double TotalMonthlyPayment { get; private set; }
+        private double TotalMonthlyPayment { get; set; }
 
         public Mortgage(double amountLoaned, double annualRate, int numberOfMonths)
         {
@@ -44,27 +48,44 @@
             MonthlyRate = annualRate / 1200;
         }
 
-        public void CalculateMonthlyPayment()
+        
+
+        public double CalculateMonthlyPayment()
         {
             TotalMonthlyPayment = (AmountLoaned * MonthlyRate) / (1 - Math.Pow(1 + MonthlyRate, -NumberOfMonths));
-            Console.WriteLine($"Total Monthly Payment: {TotalMonthlyPayment:C}");
+            
+            return TotalMonthlyPayment;
         }
 
-        public void PrintAmortizationSchedule()
+        public List<Payment> PrintAmortizationSchedule()
         {
+            CalculateMonthlyPayment();
             double remainingBalance = AmountLoaned;
-
+            var result = new List<Payment>();
             for (int month = 1; month <= NumberOfMonths; month++)
             {
                 double interestPayment = remainingBalance * MonthlyRate;
                 double principalPayment = TotalMonthlyPayment - interestPayment;
                 remainingBalance -= principalPayment;
-
-                Console.WriteLine($"Month {month}:");
-                Console.WriteLine($"  Interest Payment: {interestPayment:C}");
-                Console.WriteLine($"  Principal Payment: {principalPayment:C}");
-                Console.WriteLine($"  Remaining Balance: {remainingBalance:C}");
+                result.Add(new Payment(month, interestPayment, principalPayment, remainingBalance));
+                
             }
+            return result;
         }
+    }
+    public class  Payment
+    {
+        public Payment(int month, double interestPayment, double principalPayment, double remainingBalance)
+        {
+            Month = month;
+            InterestPayment = interestPayment;
+            PrincipalPayment = principalPayment;
+            RemainingBalance = remainingBalance;
+        }
+
+        public int Month { get; }
+        public double InterestPayment { get; }
+        public double PrincipalPayment { get; }
+        public double RemainingBalance { get; }
     }
 }
