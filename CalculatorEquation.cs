@@ -46,6 +46,7 @@
             AnnualRate = annualRate;
             NumberOfMonths = numberOfMonths;
             MonthlyRate = annualRate / 1200;
+
         }
 
         
