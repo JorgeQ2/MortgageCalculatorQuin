@@ -29,5 +29,6 @@ class Program
     {
         File.ReadLines(file.FullName).ToList()
             .ForEach(line => Console.WriteLine(line));
+    
     }
 }
